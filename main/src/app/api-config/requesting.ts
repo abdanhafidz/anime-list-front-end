@@ -1,26 +1,27 @@
-import ApiData from config
-
-
-export default function req(category:string,param:string){
-    const url = ApiData.url+"/"+category+"/"+param
-    const clientID = ApiData.clientID
+import ApiData from "./config";
+const req = async (category:any,param:string) => {
+    try{
+    var resp
+    const url = ApiData.url+"/"+category+"?"+param
+    const client_ID = ApiData.clientID
     const method = ApiData.method
-    const data = {
-        name: "abdan hafidz",
-        bitches: 0,
-    };
     const Headers = {
         "Content-Type": "application/json",
-        "X-MAL-CLIENT-ID":clientID,
+        "X-MAL-CLIENT-ID":client_ID,
     }
-    fetch(url, {
+    await fetch(url, {
         method: method,
         headers: Headers,
-        body: JSON.stringify(data),
+        body:""
     })
         .then((response) => response.json())
-        .then((data) => {
-            return data
-        });
+        .then((data) => resp = JSON.stringify(data) )
+        return resp
+    } catch(err){
+        console.log("error")
+        return "There is an error with this request, check the parameter,arugment,methods,etc : "+err
+    }
 
 }
+
+export default req
